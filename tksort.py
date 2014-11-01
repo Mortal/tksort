@@ -52,7 +52,7 @@ def tk_parse(s):
 def tk_key(s):
     p = tk_parse(s)
     if p:
-        return (0,) + p + (s,)
+        return (0, p, s)
     else:
         return (1, s)
 
