@@ -30,7 +30,7 @@ def tk_parse(s):
         kind = mo.lastgroup
         value = mo.group(kind)
         if kind == 'prefix':
-            pref += prefixes[value]
+            pref += prefixes[value.upper()]
         elif kind == 'multiprefix':
             pref += prefixes[value[0]] * int(value[1:])
         elif kind == 'efu':
