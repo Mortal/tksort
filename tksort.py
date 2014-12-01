@@ -60,7 +60,6 @@ def tk_key(s):
 def main():
     for line in sorted(sys.stdin.readlines(), key=tk_key):
         sys.stdout.write(line)
-        #print(repr(tk_key(line)))
 
 
 if __name__ == "__main__":
