@@ -33,7 +33,7 @@ def tk_parse(s):
         if kind == 'prefix':
             pref += prefixes[value.upper()]
         elif kind == 'multiprefix':
-            pref += prefixes[value[0]] * int(value[1:])
+            pref += prefixes[value[0].upper()] * int(value[1:])
         elif kind == 'efu':
             fu = 2
             title = value
