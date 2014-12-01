@@ -2,6 +2,7 @@
 
 import re
 import sys
+import argparse
 
 prefixes = dict(zip('GBOTK', (1, 2, 3, 1, -1)))
 
@@ -57,8 +58,27 @@ def tk_key(s):
         return (1, s)
 
 
+def tk_min_key(s):
+    return min(tk_key(word) for word in s.split())
+
+
+def tk_max_key(s):
+    return max(tk_key(word) for word in s.split())
+
+
 def main():
-    for line in sorted(sys.stdin.readlines(), key=tk_key):
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '--min', action='store_const', dest='key', const=tk_min_key,
+        default=tk_key)
+
+    parser.add_argument(
+        '--max', action='store_const', dest='key', const=tk_max_key)
+
+    args = parser.parse_args()
+
+    for line in sorted(sys.stdin.readlines(), key=args.key):
         sys.stdout.write(line)
 
 
