@@ -59,11 +59,21 @@ def tk_key(s):
 
 
 def tk_min_key(s):
-    return min(tk_key(word) for word in s.split())
+    words = s.split()
+    return min(
+        ((0, p, s)
+         for p, word in zip((tk_parse(word) for word in words), words)
+         if p),
+        default=(1, s))
 
 
 def tk_max_key(s):
-    return max(tk_key(word) for word in s.split())
+    words = s.split()
+    return max(
+        ((0, p, s)
+         for p, word in zip((tk_parse(word) for word in words), words)
+         if p),
+        default=(1, s))
 
 
 def main():
