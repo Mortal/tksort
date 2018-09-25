@@ -4,10 +4,10 @@ import re
 import sys
 import argparse
 
-prefixes = dict(zip('GBOTK', (1, 2, 3, 1, -1)))
+prefixes = dict(zip("GBOTK", (1, 2, 3, 1, -1)))
 
 TITLE = re.compile(
-    r'''
+    r"""
     (?P<best>BEST|CERM|FORM|INKA|KASS|KA\$\$|NF|PR|SEKR|VC)
     |
     (?P<efu>EFU..)
@@ -19,31 +19,32 @@ TITLE = re.compile(
     (?P<prefix>[GBOTK])
     |
     (?P<rest>.*)
-    ''',
-    re.X)
+    """,
+    re.X,
+)
 
 
 def tk_parse(s, args):
     pref = 0
     fu = 0
-    title = ''
+    title = ""
     if args.ignore_case:
         s = s.upper()
 
     for mo in TITLE.finditer(s):
         kind = mo.lastgroup
         value = mo.group(kind)
-        if kind == 'prefix':
+        if kind == "prefix":
             pref += prefixes[value.upper()]
-        elif kind == 'multiprefix':
+        elif kind == "multiprefix":
             pref += prefixes[value[0].upper()] * int(value[1:])
-        elif kind == 'efu':
+        elif kind == "efu":
             fu = 2
             title = value
-        elif kind == 'fu':
+        elif kind == "fu":
             fu = 1
             title = value
-        elif kind == 'best':
+        elif kind == "best":
             fu = 0
             title = value
 
@@ -64,33 +65,37 @@ def tk_key(s, args):
 def tk_min_key(s, args):
     words = s.split()
     return min(
-        ((0, p, s)
-         for p, word in zip((tk_parse(word, args) for word in words), words)
-         if p),
-        default=(1, s))
+        (
+            (0, p, s)
+            for p, word in zip((tk_parse(word, args) for word in words), words)
+            if p
+        ),
+        default=(1, s),
+    )
 
 
 def tk_max_key(s, args):
     words = s.split()
     return max(
-        ((0, p, s)
-         for p, word in zip((tk_parse(word, args) for word in words), words)
-         if p),
-        default=(1, s))
+        (
+            (0, p, s)
+            for p, word in zip((tk_parse(word, args) for word in words), words)
+            if p
+        ),
+        default=(1, s),
+    )
 
 
 def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '--min', action='store_const', dest='key', const=tk_min_key,
-        default=tk_key)
+        "--min", action="store_const", dest="key", const=tk_min_key, default=tk_key
+    )
 
-    parser.add_argument(
-        '--max', action='store_const', dest='key', const=tk_max_key)
+    parser.add_argument("--max", action="store_const", dest="key", const=tk_max_key)
 
-    parser.add_argument(
-        '-i', '--ignore-case', action='store_true')
+    parser.add_argument("-i", "--ignore-case", action="store_true")
 
     args = parser.parse_args()
 
