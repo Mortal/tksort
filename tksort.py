@@ -8,7 +8,7 @@ prefixes = dict(zip('GBOTK', (1, 2, 3, 1, -1)))
 
 TITLE = re.compile(
     r'''
-    (?P<best>BEST|CERM|FORM|INKA|KASS|NF|PR|SEKR|VC)
+    (?P<best>BEST|CERM|FORM|INKA|KASS|KA\$\$|NF|PR|SEKR|VC)
     |
     (?P<efu>EFU..)
     |
